@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horrorworks Studio | Developing The Void</title>
+    <title>Horrorworks Studio </title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -24,6 +24,9 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #7f1d1d; border-radius: 10px; }
+
+        /* Ensure smooth scrolling */
+        html { scroll-behavior: smooth; }
     </style>
 
     <script>
@@ -133,10 +136,20 @@
                         window.scrollTo(0, 0);
                     });
                     this.$watch('selectedProject', (val) => {
-                        if (val) this.$nextTick(() => lucide.createIcons());
+                        if (val) {
+                            document.body.style.overflow = 'hidden';
+                            this.$nextTick(() => lucide.createIcons());
+                        } else {
+                            document.body.style.overflow = 'auto';
+                        }
                     });
                     this.$watch('selectedDev', (val) => {
-                        if (val) this.$nextTick(() => lucide.createIcons());
+                        if (val) {
+                            document.body.style.overflow = 'hidden';
+                            this.$nextTick(() => lucide.createIcons());
+                        } else {
+                            document.body.style.overflow = 'auto';
+                        }
                     });
                 }
             }
@@ -170,8 +183,8 @@
 
             <!-- Mobile Menu Button -->
             <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="md:hidden p-2 text-[#9ca3af] hover:text-white transition-colors" aria-label="Toggle Menu">
-                <i data-lucide="menu" x-show="!isMobileMenuOpen"></i>
-                <i data-lucide="x" x-show="isMobileMenuOpen"></i>
+                <i data-lucide="menu" x-show="!isMobileMenuOpen" class="w-6 h-6"></i>
+                <i data-lucide="x" x-show="isMobileMenuOpen" class="w-6 h-6"></i>
             </button>
         </div>
     </nav>
@@ -185,20 +198,24 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-[-20px]"
-         class="fixed inset-0 z-50 bg-[#0a0a0a] flex flex-col items-center justify-center space-y-6 p-6">
+         class="fixed inset-0 z-50 bg-[#0a0a0a] flex flex-col items-center justify-center p-6">
         
         <button @click="isMobileMenuOpen = false" class="absolute top-6 right-6 text-[#9ca3af] hover:text-white">
             <i data-lucide="x" class="w-8 h-8"></i>
         </button>
 
-        <template x-for="item in navItems" :key="item.id">
-            <button @click="activeTab = item.id; isMobileMenuOpen = false"
-                class="text-4xl font-black italic uppercase tracking-tighter transition-colors w-full text-center py-4"
-                :class="activeTab === item.id ? 'text-[#7f1d1d]' : 'text-white hover:text-[#7f1d1d]'"
-                x-text="item.label"></button>
-        </template>
+        <div class="flex flex-col items-center space-y-2 w-full">
+            <template x-for="item in navItems" :key="item.id">
+                <button @click="activeTab = item.id; isMobileMenuOpen = false"
+                    class="text-4xl font-black italic uppercase tracking-tighter transition-colors w-full text-center py-4 flex flex-col items-center"
+                    :class="activeTab === item.id ? 'text-[#7f1d1d]' : 'text-white hover:text-[#7f1d1d]'">
+                    <span x-text="item.label"></span>
+                    <span x-show="activeTab === item.id" class="w-12 h-1 bg-[#7f1d1d] mt-1"></span>
+                </button>
+            </template>
+        </div>
         
-        <div class="pt-12 border-t border-white/5 w-full text-center">
+        <div class="absolute bottom-12 w-full text-center px-6">
             <p class="text-[#7f1d1d] font-black text-xs uppercase tracking-[0.4em]">Horrorworks Studio</p>
         </div>
     </div>
@@ -208,15 +225,15 @@
         
         <!-- Home Tab -->
         <div x-show="activeTab === 'home'" x-cloak class="animate-in fade-in duration-700">
-            <section class="relative h-[70vh] md:h-[85vh] flex flex-col items-center justify-center overflow-hidden px-4">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#7f1d1d20_0%,_transparent_70%)]"></div>
+            <section class="relative h-[60vh] md:h-[85vh] flex flex-col items-center justify-center overflow-hidden px-4">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#7f1d1d30_0%,_transparent_70%)] opacity-60"></div>
                 <div class="text-center z-10 space-y-4">
-                    <div class="flex gap-2 md:gap-12 justify-center mb-6">
-                        <h2 class="glitch text-7xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="H">H</h2>
-                        <h2 class="glitch text-7xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="W">W</h2>
-                        <h2 class="glitch text-7xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="S">S</h2>
+                    <div class="flex gap-4 md:gap-12 justify-center mb-6">
+                        <h2 class="glitch text-8xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="H">H</h2>
+                        <h2 class="glitch text-8xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="W">W</h2>
+                        <h2 class="glitch text-8xl md:text-[14rem] font-black text-white leading-none tracking-tighter" data-text="S">S</h2>
                     </div>
-                    <p class="text-[#7f1d1d] font-black tracking-[0.3em] md:tracking-[0.6em] text-xs md:text-xl uppercase">Developing The Void</p>
+                    <p class="text-[#7f1d1d] font-black tracking-[0.3em] md:tracking-[0.6em] text-xs md:text-xl uppercase bg-black/40 px-4 py-1 inline-block">HorrorWorksStudio</p>
                 </div>
             </section>
 
@@ -234,18 +251,23 @@
             </div>
 
             <!-- Featured Section -->
-            <section class="py-16 md:py-24 bg-[#0f0f0f] px-4">
+            <section class="py-12 md:py-24 bg-[#0f0f0f] px-4">
                 <div class="max-w-7xl mx-auto">
                     <h3 class="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter border-l-4 md:border-l-8 border-[#7f1d1d] pl-4 md:pl-6 mb-8 md:mb-12">Featured</h3>
-                    <div class="grid md:grid-cols-1 max-w-4xl mx-auto gap-6 md:gap-8">
+                    <div class="grid md:grid-cols-1 max-w-4xl mx-auto gap-8">
                         <template x-for="p in projects.filter(x => x.category === 'active')" :key="p.id">
-                            <div @click="selectedProject = p" class="group relative h-[400px] md:h-[500px] rounded-[2rem] md:rounded-[3.5rem] overflow-hidden cursor-pointer border border-[#7f1d1d]/20 active:scale-95 transition-transform">
-                                <img :src="p.image" class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 md:group-hover:grayscale-0 md:group-hover:brightness-100 transition-all duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent"></div>
-                                <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 pr-6">
-                                    <span class="text-[10px] font-black uppercase tracking-[0.4em] mb-1 block text-[#7f1d1d]" x-text="p.status"></span>
-                                    <h4 class="text-4xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-tight md:leading-none" x-text="p.name"></h4>
-                                    <p class="text-gray-300 text-xs md:text-sm mt-3 font-medium max-w-md md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-y-4 md:group-hover:translate-y-0 italic" x-text="'&quot;' + p.description + '&quot;'"></p>
+                            <div @click="selectedProject = p" class="group relative aspect-[4/5] md:aspect-auto md:h-[500px] rounded-[2rem] md:rounded-[3.5rem] overflow-hidden cursor-pointer border border-[#7f1d1d]/20 active:scale-95 transition-transform shadow-2xl">
+                                <img :src="p.image" class="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.4] md:group-hover:grayscale-0 md:group-hover:brightness-100 transition-all duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
+                                <div class="absolute bottom-8 left-8 md:bottom-12 md:left-12 pr-8">
+                                    <span class="text-[10px] font-black uppercase tracking-[0.4em] mb-2 block text-[#7f1d1d]" x-text="p.status"></span>
+                                    <h4 class="text-5xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-tight md:leading-none" x-text="p.name"></h4>
+                                    <p class="text-gray-300 text-sm md:text-base mt-4 font-medium max-w-md md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-y-4 md:group-hover:translate-y-0 italic leading-relaxed" x-text="'&quot;' + p.description + '&quot;'"></p>
+                                    
+                                    <!-- Mobile tap indicator -->
+                                    <div class="md:hidden mt-6 flex items-center gap-2 text-[#7f1d1d] font-bold text-[10px] uppercase tracking-widest">
+                                        View Project <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -255,31 +277,38 @@
         </div>
 
         <!-- Team Tab -->
-        <div x-show="activeTab === 'team'" x-cloak class="max-w-7xl mx-auto px-4 py-16 md:py-24 animate-in slide-in-from-bottom-4 duration-500">
+        <div x-show="activeTab === 'team'" x-cloak class="max-w-7xl mx-auto px-4 py-12 md:py-24 animate-in slide-in-from-bottom-4 duration-500">
             <h2 class="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase text-center mb-12 md:mb-16">Personnel Dossier</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <template x-for="dev in team" :key="dev.id">
-                    <div @click="selectedDev = dev" class="group cursor-pointer bg-[#0f0f0f] border border-white/5 p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] hover:border-[#7f1d1d] transition-all text-center active:bg-white/5">
-                        <img :src="dev.image" class="w-28 h-28 md:w-36 md:h-36 rounded-[1.5rem] md:rounded-[2rem] object-cover mx-auto mb-6 md:mb-8 grayscale md:group-hover:grayscale-0 transition-all">
+                    <div @click="selectedDev = dev" class="group cursor-pointer bg-[#0f0f0f] border border-white/5 p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] hover:border-[#7f1d1d] transition-all text-center active:bg-[#1a1a1a]">
+                        <div class="relative w-32 h-32 md:w-36 md:h-36 mx-auto mb-6 md:mb-8">
+                             <img :src="dev.image" class="w-full h-full rounded-[1.5rem] md:rounded-[2rem] object-cover grayscale md:group-hover:grayscale-0 transition-all shadow-xl">
+                             <div class="absolute -bottom-2 -right-2 bg-[#7f1d1d] p-2 rounded-lg md:hidden">
+                                 <i data-lucide="plus" class="w-4 h-4 text-white"></i>
+                             </div>
+                        </div>
                         <h3 class="text-2xl md:text-3xl font-black text-white italic uppercase tracking-tighter" x-text="dev.name"></h3>
                         <p class="text-[#7f1d1d] text-[10px] font-black uppercase tracking-[0.3em] mb-4 md:mb-6 mt-1" x-text="dev.role"></p>
+                        <button class="md:hidden px-6 py-2 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-white/40">View Intel</button>
                     </div>
                 </template>
             </div>
         </div>
 
         <!-- Projects Tab -->
-        <div x-show="activeTab === 'projects'" x-cloak class="max-w-7xl mx-auto px-4 py-16 md:py-24 animate-in slide-in-from-bottom-4 duration-500">
+        <div x-show="activeTab === 'projects'" x-cloak class="max-w-7xl mx-auto px-4 py-12 md:py-24 animate-in slide-in-from-bottom-4 duration-500">
             <h2 class="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase mb-8 md:mb-12 border-l-4 md:border-l-8 border-[#7f1d1d] pl-4 md:pl-8">Archives</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <template x-for="p in projects" :key="p.id">
-                    <div @click="selectedProject = p" class="group cursor-pointer bg-[#0f0f0f] border border-white/5 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden hover:border-[#7f1d1d] transition-all active:bg-white/5">
-                        <div class="h-48 md:h-64 bg-black overflow-hidden relative">
-                            <img :src="p.image" class="w-full h-full object-cover grayscale brightness-50 md:group-hover:brightness-100 md:group-hover:grayscale-0 transition-all duration-500">
+                    <div @click="selectedProject = p" class="group cursor-pointer bg-[#0f0f0f] border border-white/5 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden hover:border-[#7f1d1d] transition-all active:bg-[#1a1a1a]">
+                        <div class="h-56 md:h-64 bg-black overflow-hidden relative">
+                            <img :src="p.image" class="w-full h-full object-cover grayscale brightness-[0.4] md:group-hover:brightness-100 md:group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[8px] font-black uppercase text-[#7f1d1d] border border-[#7f1d1d]/30" x-text="p.status"></div>
                         </div>
                         <div class="p-6 md:p-10">
                             <h3 class="text-2xl md:text-3xl font-black text-white uppercase italic mb-2 tracking-tighter" x-text="p.name"></h3>
-                            <p class="text-[#9ca3af] text-xs md:text-sm italic opacity-60 line-clamp-2" x-text="'&quot;' + p.description + '&quot;'"></p>
+                            <p class="text-[#9ca3af] text-sm italic opacity-60 line-clamp-2 leading-relaxed" x-text="'&quot;' + p.description + '&quot;'"></p>
                         </div>
                     </div>
                 </template>
@@ -287,23 +316,28 @@
         </div>
 
         <!-- Community Tab -->
-        <div x-show="activeTab === 'community'" x-cloak class="max-w-7xl mx-auto px-4 py-8 md:py-12 h-auto md:h-[750px] flex gap-4 md:gap-6 flex-col md:flex-row animate-in slide-in-from-bottom-4 duration-500">
-            <!-- Discord Sidebar Mockup (Hidden on small mobile) -->
-            <div class="hidden sm:flex w-full md:w-64 bg-[#111214] rounded-2xl md:rounded-3xl p-4 flex-col border border-white/5">
-                <h3 class="text-white font-black text-[10px] uppercase mb-4 opacity-40">HWS Community</h3>
+        <div x-show="activeTab === 'community'" x-cloak class="max-w-7xl mx-auto px-4 py-8 md:py-12 min-h-[80vh] flex gap-4 md:gap-6 flex-col md:flex-row animate-in slide-in-from-bottom-4 duration-500">
+            <!-- Discord Sidebar Mockup -->
+            <div class="hidden md:flex w-64 bg-[#111214] rounded-3xl p-6 flex-col border border-white/5">
+                <h3 class="text-white font-black text-[10px] uppercase mb-6 opacity-40 tracking-widest">HWS Community</h3>
                 <div class="space-y-1 flex-grow">
-                    <div class="text-[#949ba4] text-[9px] font-bold uppercase mb-2">Channels</div>
-                    <div class="bg-[#3f4147] text-white p-2 rounded text-[11px] font-bold uppercase tracking-tight flex items-center gap-2"># Welcome</div>
-                    <div class="text-[#949ba4] p-2 rounded text-[11px] font-bold uppercase tracking-tight flex items-center gap-2"># Announcements</div>
-                    <div class="text-[#949ba4] p-2 rounded text-[11px] font-bold uppercase tracking-tight flex items-center gap-2"># General-Yap</div>
+                    <div class="text-[#949ba4] text-[9px] font-bold uppercase mb-4 opacity-30">Channels</div>
+                    <div class="bg-[#3f4147] text-white p-3 rounded-xl text-[11px] font-bold uppercase tracking-tight flex items-center gap-2"># Welcome</div>
+                    <div class="text-[#949ba4] p-3 rounded-xl text-[11px] font-bold uppercase tracking-tight flex items-center gap-2 hover:bg-white/5"># Announcements</div>
+                    <div class="text-[#949ba4] p-3 rounded-xl text-[11px] font-bold uppercase tracking-tight flex items-center gap-2 hover:bg-white/5"># General-Yap</div>
                 </div>
             </div>
+
             <!-- Discord Widget -->
-            <div class="flex-grow bg-[#313338] rounded-2xl md:rounded-3xl overflow-hidden relative border border-white/5 min-h-[500px] md:min-h-0">
-                <iframe src="https://discord.com/widget?id=1230191838933258350&theme=dark" width="100%" height="100%" allowtransparency="true" frameBorder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6">
-                    <a href="https://discord.gg/BrC2WqhxxT" target="_blank" class="bg-[#5865f2] text-white px-5 py-3 md:px-6 md:py-3 rounded-xl font-black text-[10px] md:text-xs uppercase tracking-tighter flex items-center gap-2 shadow-lg shadow-black/50">
-                        Join Discord
+            <div class="flex-grow bg-[#313338] rounded-[2rem] md:rounded-3xl overflow-hidden relative border border-white/5 min-h-[600px] flex flex-col">
+                <div class="bg-[#2b2d31] p-4 border-b border-black/20 flex items-center justify-between md:hidden">
+                    <span class="text-white font-black text-xs uppercase tracking-widest">HWS DISCORD</span>
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                </div>
+                <iframe src="https://discord.com/widget?id=1230191838933258350&theme=dark" class="w-full flex-grow" allowtransparency="true" frameBorder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                <div class="p-6 bg-[#2b2d31]/80 backdrop-blur-md md:absolute md:bottom-8 md:right-8 w-full md:w-auto">
+                    <a href="https://discord.gg/BrC2WqhxxT" target="_blank" class="w-full md:w-auto bg-[#5865f2] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-tighter flex items-center justify-center gap-3 shadow-2xl hover:bg-[#4752c4] transition-colors">
+                        <i data-lucide="message-square" class="w-4 h-4"></i> Join Server
                     </a>
                 </div>
             </div>
@@ -313,8 +347,8 @@
 
     <!-- Project Modal (Mobile Optimized) -->
     <template x-if="selectedProject">
-        <div class="fixed inset-0 z-50 bg-black flex flex-col overflow-y-auto">
-            <div class="sticky top-0 z-[60] bg-black/95 backdrop-blur-xl border-b border-white/5 p-4 md:p-6 flex justify-between items-center px-4 md:px-10">
+        <div class="fixed inset-0 z-[100] bg-black flex flex-col overflow-y-auto">
+            <div class="sticky top-0 z-[110] bg-black/95 backdrop-blur-xl border-b border-white/5 p-4 md:p-6 flex justify-between items-center px-4 md:px-10">
                 <div class="flex items-center gap-3 md:gap-6">
                     <div class="w-10 h-10 md:w-12 md:h-12 bg-[#7f1d1d] rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-2xl shadow-lg" x-text="selectedProject.icon"></div>
                     <div>
@@ -327,22 +361,22 @@
                 </button>
             </div>
 
-            <div class="flex-grow flex flex-col lg:flex-row">
+            <div class="flex-grow flex flex-col lg:flex-row pb-12 lg:pb-0">
                 <div class="lg:w-2/3 p-4 md:p-12 space-y-8 md:space-y-12">
                     <!-- Video -->
-                    <div class="aspect-video bg-black rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
+                    <div class="aspect-video bg-black rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl relative">
                         <iframe class="w-full h-full" :src="selectedProject.youtubeUrl" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <!-- Media Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-                        <div class="md:col-span-2 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-video md:aspect-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="md:col-span-2 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-video shadow-lg">
                             <img :src="selectedProject.media[0]" class="w-full h-full object-cover">
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-1 gap-3 md:gap-4">
-                            <div class="rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-square md:aspect-auto">
+                        <div class="grid grid-cols-2 md:grid-cols-1 gap-4">
+                            <div class="rounded-[1.2rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-square shadow-lg">
                                 <img :src="selectedProject.media[1]" class="w-full h-full object-cover">
                             </div>
-                            <div class="rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-square md:aspect-auto">
+                            <div class="rounded-[1.2rem] md:rounded-[2.5rem] overflow-hidden border border-white/5 aspect-square shadow-lg">
                                 <img :src="selectedProject.media[2]" class="w-full h-full object-cover">
                             </div>
                         </div>
@@ -352,18 +386,18 @@
                 <div class="lg:w-1/3 p-6 md:p-12 bg-[#0a0a0a] lg:border-l border-white/5 space-y-10 md:space-y-12">
                     <section>
                         <h3 class="text-[9px] font-black text-[#7f1d1d] uppercase tracking-[0.5em] mb-4">Description</h3>
-                        <p class="text-xl md:text-2xl font-black text-white italic tracking-tighter" x-text="'&quot;' + selectedProject.description + '&quot;'"></p>
+                        <p class="text-xl md:text-3xl font-black text-white italic tracking-tighter leading-tight" x-text="'&quot;' + selectedProject.description + '&quot;'"></p>
                     </section>
                     <section>
                         <h3 class="text-[9px] font-black text-[#4b5563] uppercase tracking-[0.5em] mb-4">Personnel</h3>
                         <div class="flex flex-wrap gap-2">
                             <template x-for="c in selectedProject.contributors">
-                                <span class="px-3 py-1.5 md:px-4 md:py-2 bg-[#0f0f0f] border border-white/5 rounded-lg md:rounded-xl text-[9px] md:text-[10px] font-black text-white uppercase italic" x-text="c"></span>
+                                <span class="px-4 py-2 bg-[#0f0f0f] border border-white/5 rounded-xl text-[10px] font-black text-white uppercase italic tracking-widest" x-text="c"></span>
                             </template>
                         </div>
                     </section>
-                    <div class="py-6 md:pt-12">
-                        <a href="https://horrorworksstudios.itch.io/" target="_blank" class="block text-center bg-white text-black py-5 md:py-6 rounded-[1.5rem] md:rounded-[2.5rem] font-black uppercase text-[10px] md:text-xs tracking-widest hover:bg-[#7f1d1d] hover:text-white transition-all shadow-xl">
+                    <div class="pt-6">
+                        <a href="https://horrorworksstudios.itch.io/" target="_blank" class="block text-center bg-white text-black py-5 md:py-6 rounded-[1.5rem] md:rounded-[2.5rem] font-black uppercase text-[10px] md:text-xs tracking-[0.2em] hover:bg-[#7f1d1d] hover:text-white transition-all shadow-xl active:scale-95">
                             Access Store Page
                         </a>
                     </div>
@@ -374,34 +408,41 @@
 
     <!-- Dev Modal (Mobile Optimized) -->
     <template x-if="selectedDev">
-        <div class="fixed inset-0 z-50 bg-black flex flex-col lg:flex-row overflow-y-auto">
-            <div class="lg:w-1/2 min-h-[40vh] lg:h-screen relative">
-                <img :src="selectedDev.image" class="w-full h-full object-cover grayscale brightness-50">
+        <div class="fixed inset-0 z-[100] bg-black flex flex-col lg:flex-row overflow-y-auto">
+            <div class="lg:w-1/2 h-[50vh] lg:h-screen relative shrink-0">
+                <img :src="selectedDev.image" class="w-full h-full object-cover grayscale brightness-[0.3]">
                 <div class="absolute bottom-8 left-8 md:bottom-12 md:left-12 pr-8">
-                    <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none" x-text="selectedDev.name"></h1>
-                    <p class="text-xl md:text-2xl font-black text-[#7f1d1d] uppercase italic mt-3" x-text="selectedDev.role"></p>
+                    <h1 class="text-6xl md:text-8xl font-black text-white italic uppercase tracking-tighter leading-none" x-text="selectedDev.name"></h1>
+                    <p class="text-xl md:text-2xl font-black text-[#7f1d1d] uppercase italic mt-4" x-text="selectedDev.role"></p>
                 </div>
-                <button @click="selectedDev = null" class="absolute top-6 right-6 md:top-8 md:right-8 p-3 md:p-4 bg-white/10 backdrop-blur-md rounded-full text-white">
-                    <i data-lucide="x"></i>
+                <button @click="selectedDev = null" class="absolute top-6 right-6 md:top-8 md:right-8 p-3 md:p-4 bg-white/10 backdrop-blur-md rounded-full text-white z-10 hover:bg-[#7f1d1d]">
+                    <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <div class="lg:w-1/2 p-8 md:p-24 space-y-10 md:space-y-12">
+            <div class="lg:w-1/2 p-8 md:p-24 space-y-12">
                 <section>
-                    <h3 class="text-[9px] font-black text-[#4b5563] uppercase tracking-[0.4em] mb-4">Background</h3>
-                    <p class="text-2xl md:text-4xl font-black text-white italic tracking-tighter" x-text="'&quot;' + selectedDev.bio + '&quot;'"></p>
+                    <h3 class="text-[10px] font-black text-[#4b5563] uppercase tracking-[0.5em] mb-6">Background Intel</h3>
+                    <p class="text-2xl md:text-4xl font-black text-white italic tracking-tighter leading-tight" x-text="'&quot;' + selectedDev.bio + '&quot;'"></p>
                 </section>
                 
-                <section x-show="selectedDev.support" class="bg-[#0f0f0f] p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] border border-[#7f1d1d]/30">
-                    <h4 class="text-lg md:text-xl font-black text-white italic uppercase mb-4" x-text="selectedDev.supportType + ' Gateway'"></h4>
-                    <a :href="selectedDev.support" target="_blank" class="block text-center bg-[#d1d5db] text-black py-4 rounded-xl font-black uppercase text-[10px] tracking-widest active:scale-95 transition-transform">Support Developer</a>
+                <section x-show="selectedDev.support" class="bg-[#0f0f0f] p-8 rounded-[2rem] border border-[#7f1d1d]/30 shadow-2xl">
+                    <h4 class="text-xl font-black text-white italic uppercase mb-6 flex items-center gap-3">
+                        <i data-lucide="wallet" class="w-5 h-5 text-[#7f1d1d]"></i>
+                        <span x-text="selectedDev.supportType + ' Gateway'"></span>
+                    </h4>
+                    <a :href="selectedDev.support" target="_blank" class="block text-center bg-[#d1d5db] text-black py-5 rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95 transition-transform hover:bg-white">Support Developer</a>
                 </section>
 
                 <div class="flex flex-col sm:flex-row gap-4">
                     <template x-if="selectedDev.socials.youtube">
-                        <a :href="selectedDev.socials.youtube" target="_blank" class="flex-1 p-5 bg-[#151515] rounded-xl border border-white/5 text-center text-white font-black uppercase italic text-[10px] tracking-widest hover:bg-white/5">YouTube</a>
+                        <a :href="selectedDev.socials.youtube" target="_blank" class="flex-1 p-6 bg-[#151515] rounded-2xl border border-white/5 text-center text-white font-black uppercase italic text-xs tracking-widest hover:border-[#7f1d1d] transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="youtube" class="w-4 h-4"></i> YouTube
+                        </a>
                     </template>
                     <template x-if="selectedDev.email">
-                        <a :href="'mailto:' + selectedDev.email" class="flex-1 p-5 bg-[#151515] rounded-xl border border-white/5 text-center text-white font-black uppercase italic text-[10px] tracking-widest hover:bg-white/5">Email</a>
+                        <a :href="'mailto:' + selectedDev.email" class="flex-1 p-6 bg-[#151515] rounded-2xl border border-white/5 text-center text-white font-black uppercase italic text-xs tracking-widest hover:border-[#7f1d1d] transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4"></i> Secure Line
+                        </a>
                     </template>
                 </div>
             </div>
